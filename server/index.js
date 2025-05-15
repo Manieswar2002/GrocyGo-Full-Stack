@@ -19,13 +19,39 @@ import orderRouter from './route/order.route.js'
 import { authMiddleware } from './middlewate/authMiddleware.js'
 
 
-const app = express()
-app.use(cors({
-    credentials : true,
-    origin : process.env.FRONTEND_URL
+// const app = express()
+// app.use(cors({
+//     credentials : true,
+//     origin : process.env.FRONTEND_URL
     
-}))
+// }))
 
+
+
+
+const allowedOrigins = [
+  'https://grocy-go-full-stack.vercel.app',
+  'https://grocy-go-full-stack-h9qw.vercel.app'
+];
+
+app.use(cors({
+  credentials: true,
+  origin: function(origin, callback) {
+    // allow requests with no origin like mobile apps or curl
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `CORS policy does not allow access from origin: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
+
+app.use(cors({
+  credentials: true,
+  origin: true
+}));
 
 app.use(express.json())
 app.use(cookieParser())
