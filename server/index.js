@@ -27,8 +27,6 @@ import { authMiddleware } from './middlewate/authMiddleware.js'
 // }))
 
 
-
-
 const allowedOrigins = [
   'https://grocy-go-full-stack.vercel.app',
   'https://grocy-go-full-stack-h9qw.vercel.app'
@@ -37,7 +35,6 @@ const allowedOrigins = [
 app.use(cors({
   credentials: true,
   origin: function(origin, callback) {
-    // allow requests with no origin like mobile apps or curl
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.indexOf(origin) === -1) {
@@ -48,10 +45,8 @@ app.use(cors({
   }
 }));
 
-app.use(cors({
-  credentials: true,
-  origin: true
-}));
+
+
 
 app.use(express.json())
 app.use(cookieParser())
